@@ -6,9 +6,14 @@ export const EditorContext = createContext();
 // Create a provider component
 export const EditorProvider = ({ children }) => {
   const [data, setData] = useState("Some initial data");
+ const [editorData,setEditorData]=useState({
+    Heading:"",
+    Description:"",
+    Footer:"",
+ })
 
   return (
-    <EditorContext.Provider value={{ data, setData }}>
+    <EditorContext.Provider value={{ data, setData,editorData,setEditorData }}>
       {children}
     </EditorContext.Provider>
   );
