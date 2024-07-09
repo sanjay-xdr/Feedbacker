@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <title>FeedBacker</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f5f5f5;
+      }
+      .card {
+        width: 400px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        animation: fadeInUp 1s ease-out;
+      }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <header class="card-header">
+        <p class="card-header-title">
+          <!-- Replace with your dynamic content -->
+          {{ userData.Heading }}
+        </p>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          <!-- Replace with your dynamic content -->
+          {{ userData.Description }}
+          <textarea
+            class="textarea"
+            placeholder="Your text here"
+            id="textarea"
+          ></textarea>
+        </div>
+      </div>
+      <footer class="card-footer">
+        <!-- Replace with your dynamic content -->
+        <button class="button is-success" id="submitBtn">Submit</button>
+        <p class="card-footer-item">{{ userData.Footer }}</p>
+      </footer>
+    </div>
+
+    <script>
+      const SubmitBtn = document.getElementById("submitBtn");
+      const textAreaEl = document.getElementById("textarea");
+
+      SubmitBtn.addEventListener("click", () => {
+        console.log("Clicking the submit button");
+
+        let feedback = textAreaEl.value;
+        const feedbackData = {
+          feedback: feedback,
+          email: "sanjay@gmail.com",
+          rating: "3.4",
+        };
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(feedbackData),
+        };
+
+        fetch("http://www.localhost:8080/feedback", options)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                "Network response was not ok " + response.statusText
+              );
+            }
+            return response.json(); // Parse the JSON response
+          })
+          .then((data) => {
+            console.log("Success:", data); // Handle the response data
+          })
+          .catch((error) => {
+            console.error("Error:", error); // Handle any errors
+          });
+      });
+    </script>
+  </body>
+</html>
