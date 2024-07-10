@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
 	"encoding/json"
@@ -17,6 +17,11 @@ type RequestBody struct {
 	Description string `json:"description"`
 	Footer      string `json:"footer"`
 }
+
+var views = jet.NewSet(
+	jet.NewOSFileSystemLoader("./template"),
+	jet.InDevelopmentMode(),
+)
 
 func Home(w http.ResponseWriter, r *http.Request) {
 
