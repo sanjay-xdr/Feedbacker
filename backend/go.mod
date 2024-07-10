@@ -1,4 +1,4 @@
-module github.com/testingdemo
+module github.com/sanjay-xdr/feedbacker
 
 go 1.21.0
 

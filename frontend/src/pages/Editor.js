@@ -21,6 +21,9 @@ export default function Editor() {
     const result = validateObject(editorData);
     if (result === true) {
       //here then create a api call to backend beaches
+
+
+      
     } else {
       console.log(`Field "${result}" is empty.`);
       //show a alert here
