@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
+	"github.com/sanjay-xdr/feedbacker/internals/az"
 	"github.com/sanjay-xdr/feedbacker/internals/handlers"
 )
 
@@ -21,6 +22,8 @@ func main() {
 	})
 
 	mux.Use(cors.Handler)
+
+  az.ConnectToAzure();
 
 	mux.Get("/home", handlers.Home)
 
