@@ -13,9 +13,11 @@ import (
 )
 
 type RequestBody struct {
-	Heading     string `json:"heading"`
-	Description string `json:"description"`
-	Footer      string `json:"footer"`
+	Heading       string `json:"heading"`
+	Description   string `json:"description"`
+	Footer        string `json:"footer"`
+	ShowEmailBox  bool   `json:"showEmailBox"`
+	ShowRatingBox bool   `json:"showRatingBox"`
 }
 
 var views = jet.NewSet(
@@ -34,13 +36,13 @@ func HostSite(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&userData)
 
+	defer r.Body.Close()
+
+	fmt.Print(userData)
+
 	if err != nil {
 		log.Fatal("Something went wrong while parsing json ")
 	}
-
-	// fmt.Printf("Heading: %s\n", userData.Heading)
-	// fmt.Printf("Description: %s\n", userData.Description)
-	// fmt.Printf("Footer: %s\n", userData.Footer)
 
 	pageID := createNewPage(userData)
 
@@ -50,56 +52,19 @@ func HostSite(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
 
-	// renderPage(w, "home.jet", nil)
-
 }
 
 func createNewPage(userData RequestBody) int {
-	// Simulate creating a new page and return a unique page ID
-	// In a real scenario, you might create an HTML file or store page data in a database
+
 	pageID := generateUniquePageID()
 	createHTMLPage(pageID, userData)
 	return pageID
 }
 
 func generateUniquePageID() int {
-	// Simulate generating a unique page ID
-	// In a real scenario, you might use a database auto-increment field or UUID
-	return os.Getpid() // For demonstration, use process ID as a unique ID
+
+	return os.Getpid()
 }
-
-// func createHTMLPage(pageID int, userData RequestBody) {
-// 	// Simulate creating an HTML page with user data
-// 	// In a real scenario, you would generate or render an HTML file
-// 	tmpl, err := template.New("page").Parse(`<html>
-//     <head>
-//         <title>{{.Heading}}</title>
-//     </head>
-//     <body>
-//         <h1>{{.Heading}}</h1>
-//         <p>{{.Description}}</p>
-//         <footer>{{.Footer}}</footer>
-//     </body>
-//     </html>`)
-
-// 	if err != nil {
-// 		log.Fatalf("Error parsing template: %v", err)
-// 	}
-
-// 	fileName := fmt.Sprintf("page_%d.html", pageID)
-// 	file, err := os.Create(fileName)
-// 	if err != nil {
-// 		log.Fatalf("Error creating file: %v", err)
-// 	}
-// 	defer file.Close()
-
-// 	err = tmpl.Execute(file, userData)
-// 	if err != nil {
-// 		log.Fatalf("Error executing template: %v", err)
-// 	}
-
-// 	fmt.Printf("Created new page: %s\n", fileName)
-// }
 
 func createHTMLPage(pageID int, userData RequestBody) {
 	// fmt.Print(userData.Heading)
