@@ -30,7 +30,7 @@ func SettingUpAzure(name, key string) *AzureCredential {
 }
 
 func ConnectToAzure() {
-	azureCred := SettingUpAzure("feedbackerstore", "saV7Tihvy/iGBi2UwqN9uEA27swp0hAGW+PQcqEy4hJmlU5rVYr+jcwjWESfIjin5QihjfxXlm/y+AStLotG8A==")
+	azureCred := SettingUpAzure("name", "key")
 	cred, err := azblob.NewSharedKeyCredential(azureCred.AccountName, azureCred.AccountKey)
 
 	handleError(err)
