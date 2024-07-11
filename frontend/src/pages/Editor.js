@@ -3,6 +3,7 @@ import { Navbar } from "../components/Navbar";
 import { Link } from "react-router-dom";
 import useEditorContext from "../context/editor-context";
 import { validateObject } from "../utils/Validator";
+import axios from "axios"
 
 export default function Editor() {
   const { editorData, setEditorData } = useEditorContext();
@@ -21,9 +22,24 @@ export default function Editor() {
     const result = validateObject(editorData);
     if (result === true) {
       //here then create a api call to backend beaches
+ let url="http://localhost:8080"
+      axios.post(`${url}/hostsite`, {
+        Heading:editorData.Heading,
+        Description:editorData.Description,
+        Footer:editorData.Footer,
+        showEmailBox,
+        showRatingBox
+
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
 
-      
+
     } else {
       console.log(`Field "${result}" is empty.`);
       //show a alert here
@@ -50,7 +66,7 @@ export default function Editor() {
                   htmlFor="file-upload"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Upload File:
+                  Upload File:<span className="text-red-600">(Pending)</span>
                 </label>
                 <div className="mt-1 flex items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   <div className="space-y-1 text-center">
