@@ -23,7 +23,10 @@ func main() {
 
 	mux.Use(cors.Handler)
 
-  az.ConnectToAzure();
+	//   az.ConnectToAzure();
+
+	az.Settingup()
+	//THis is the cal
 
 	mux.Get("/home", handlers.Home)
 
