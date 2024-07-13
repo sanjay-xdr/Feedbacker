@@ -13,11 +13,11 @@ type User struct {
 }
 
 //TODO: user and userForm have only 1 join
-type UserForm struct {
+type Form struct {
 	Id        int
 	FormName  string
 	UserId    int
 	FormLink  string //this will be from the blob storage
-	CreatedAt string
-	UpdatedAt string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }

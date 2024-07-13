@@ -1,0 +1,6 @@
+create_table("Form") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("formName","string")
+    t.Column("formLink","string")
+   t.Column("userId","integer")
+}
