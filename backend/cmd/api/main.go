@@ -28,10 +28,12 @@ func main() {
 
 	// az.Settingup()
 	//THis is the cal
-	_, err := driver.ConnectDb("host=localhost port=5432 dbname=Feedbacker user=postgres password=sanjay")
+	db, err := driver.ConnectDb("host=localhost port=5432 dbname=Feedbacker user=postgres password=sanjay")
+
 	if err != nil {
 		fmt.Print("Something went wrong while connecting to the database", err)
 	}
+	defer db.Close()
 
 	mux.Get("/home", handlers.Home)
 
