@@ -1,11 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
-	"github.com/sanjay-xdr/feedbacker/internals/az"
+	"github.com/sanjay-xdr/feedbacker/internals/driver"
 	"github.com/sanjay-xdr/feedbacker/internals/handlers"
 )
 
@@ -25,8 +26,12 @@ func main() {
 
 	//   az.ConnectToAzure();
 
-	az.Settingup()
+	// az.Settingup()
 	//THis is the cal
+	_, err := driver.ConnectDb("host=localhost port=5432 dbname=Feedbacker user=postgres password=sanjay")
+	if err != nil {
+		fmt.Print("Something went wrong while connecting to the database", err)
+	}
 
 	mux.Get("/home", handlers.Home)
 

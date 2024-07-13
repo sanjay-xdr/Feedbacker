@@ -1,0 +1,7 @@
+development:
+  dialect: postgres
+  database: Name of the Database //postgres mysql etc
+  user: UserName
+  password: Password
+  host: 127.0.0.1
+  pool: 5
