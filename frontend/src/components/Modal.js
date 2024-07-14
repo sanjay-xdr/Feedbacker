@@ -1,8 +1,23 @@
 // src/components/Modal.jsx
-import React from 'react';
+import React, { useState } from 'react';
+import useEditorContext from '../context/editor-context';
+import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 const Modal = ({ showModal, setShowModal }) => {
+    const { editorData, setEditorData } = useEditorContext();
+    const [formName,setFormName]=useState("");
   if (!showModal) return null;
+
+  const submitForm=()=>{
+    
+    let formNameFinal=formName+'_'+uuidv4()+".html";
+
+    setEditorData((prevstate) => ({ ...prevstate, FormName: formNameFinal }));
+    
+
+  }
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-900 bg-opacity-50">
@@ -27,6 +42,8 @@ const Modal = ({ showModal, setShowModal }) => {
             type="text"
             className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="User Feedback"
+            onChange={(e)=>setFormName(e.target.value)}
+            
           />
         </div>
         <div className="p-6 border-t border-gray-200 flex justify-end space-x-3">
@@ -36,7 +53,7 @@ const Modal = ({ showModal, setShowModal }) => {
           >
             Close
           </button>
-          <button className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+          <button className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700" onClick={submitForm}>
             Save
           </button>
         </div>

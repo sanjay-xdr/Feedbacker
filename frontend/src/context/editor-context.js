@@ -10,6 +10,7 @@ export const EditorProvider = ({ children }) => {
     Heading:"",
     Description:"",
     Footer:"",
+    FormName:"",
  })
 
   return (
