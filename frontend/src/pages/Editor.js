@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { Navbar } from "../components/Navbar";
+import Modal from "../components/Modal";
 import { Link } from "react-router-dom";
 import useEditorContext from "../context/editor-context";
 import { validateObject } from "../utils/Validator";
-import axios from "axios"
+import axios from "axios";
 
 export default function Editor() {
   const { editorData, setEditorData } = useEditorContext();
   const [showEmailBox, setShowEmailBox] = useState(false);
   const [showRatingBox, setShowRatingBox] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -22,24 +24,22 @@ export default function Editor() {
     const result = validateObject(editorData);
     if (result === true) {
       //here then create a api call to backend beaches
- let url="http://localhost:8080"
-      axios.post(`${url}/hostsite`, {
-        Heading:editorData.Heading,
-        Description:editorData.Description,
-        Footer:editorData.Footer,
-        showEmailBox,
-        showRatingBox
-
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
-
-
+    setShowModal(true);
+      // let url = "http://localhost:8080";
+      // axios
+      //   .post(`${url}/hostsite`, {
+      //     Heading: editorData.Heading,
+      //     Description: editorData.Description,
+      //     Footer: editorData.Footer,
+      //     showEmailBox,
+      //     showRatingBox,
+      //   })
+      //   .then(function (response) {
+      //     console.log(response);
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
     } else {
       console.log(`Field "${result}" is empty.`);
       //show a alert here
@@ -50,6 +50,9 @@ export default function Editor() {
     <>
       <Navbar />
       <div className="min-h-screen flex">
+     
+        
+      <Modal showModal={showModal} setShowModal={setShowModal} />
         <div className="w-1/2  p-4 flex  ">
           <div
             className="w-full"
@@ -130,6 +133,10 @@ export default function Editor() {
                 className="block m-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Description
+                <span className="text-red-600">
+                  {" "}
+                  Make FOrm Name Unique show a pop up{" "}
+                </span>
               </label>
               <input
                 type="text"
@@ -201,14 +208,18 @@ export default function Editor() {
             >
               Generate
             </button>
+          
           </div>
         </div>
         <div className="w-px bg-gray-300"></div> {/* Vertical Line */}
         <div className="w-1/2  p-4 flex flex-col justify-center items-center">
           <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
             <div className="bg-white p-4 flex justify-center">
-            <img className="mx-auto h-10 "  src="https://avatars.githubusercontent.com/u/55450200?v=4" alt="Company Logo" />
-             
+              <img
+                className="mx-auto h-10 "
+                src="https://avatars.githubusercontent.com/u/55450200?v=4"
+                alt="Company Logo"
+              />
             </div>
             <form className="space-y-6" action="#">
               <h5 className="text-xl font-medium text-gray-900 dark:text-white">
