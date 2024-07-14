@@ -52,11 +52,11 @@ func ConnectToAzure() {
 
 }
 
-func Settingup() {
+func Settingup(formName string, content string) {
 
-	accountName := "test"
+	accountName := "key"
 
-	accountKey := "key"
+	accountKey := "Value"
 
 	cred, err := azblob.NewSharedKeyCredential(accountName, accountKey)
 	handleError(err)
@@ -67,13 +67,13 @@ func Settingup() {
 	containerName := "testcontainer4"
 
 	// TODO:this creates container
-	containerCreateResp, err := client.CreateContainer(context.TODO(), containerName, &azblob.CreateContainerOptions{Access: to.Ptr(azblob.PublicAccessTypeBlob)})
-	handleError(err)
-	fmt.Println(containerCreateResp)
+	// containerCreateResp, err := client.CreateContainer(context.TODO(), containerName, &azblob.CreateContainerOptions{Access: to.Ptr(azblob.PublicAccessTypeBlob)})
+	// handleError(err)
+	// fmt.Println(containerCreateResp)
 
 	//this uploads the blob
-	blobData := "<html><head></head><body><h1>Hello</h1></body></html>"
-	blobName := "HelloWorld.html"
+	blobData := content
+	blobName := formName
 	uploadResp, err := client.UploadStream(context.TODO(),
 		containerName,
 		blobName,
@@ -86,6 +86,7 @@ func Settingup() {
 			},
 		})
 	handleError(err)
+	fmt.Print("SUccessfully Submitted")
 	fmt.Println(uploadResp)
 
 }

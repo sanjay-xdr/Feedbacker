@@ -32,14 +32,14 @@
         </div>
         <form class="space-y-6" action="#">
           <h5 class="text-xl font-medium text-gray-900 dark:text-white">
-            {{ userData.Heading }}
+            {{ Heading }}
           </h5>
           <div>
             <label
               htmlfol="email"
               class="ml-1 mb-4 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-            {{ userData.Description }}
+            {{ Description }}
             </label>
             <div class="w-full">
               <label
@@ -57,7 +57,7 @@
                 required
               />
             </div>
-          {{if userData.ShowEmailBox==true}}
+          {{if ShowEmailBox==true}}
           <div class="w-full">
             <label
               htmlfol="Email"
@@ -83,7 +83,7 @@
               placeholder="Write your feedback here"
             ></textarea>
 
-          {{if userData.ShowRatingBox==true}}
+          {{if ShowRatingBox==true}}
           <label
           htmlfol="Name"
           class="ml-1 mt-3 block text-sm font-medium text-gray-900 dark:text-white"
@@ -155,7 +155,7 @@
               <p
                 class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
-              {{ userData.Footer }}
+              {{ Footer }}
               </p>
             </div>
           </div>
