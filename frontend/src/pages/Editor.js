@@ -10,7 +10,9 @@ export default function Editor() {
   const { editorData, setEditorData } = useEditorContext();
   const [showEmailBox, setShowEmailBox] = useState(false);
   const [showRatingBox, setShowRatingBox] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
+
+
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -24,22 +26,24 @@ export default function Editor() {
     const result = validateObject(editorData);
     if (result === true) {
       //here then create a api call to backend beaches
-    setShowModal(true);
-      // let url = "http://localhost:8080";
-      // axios
-      //   .post(`${url}/hostsite`, {
-      //     Heading: editorData.Heading,
-      //     Description: editorData.Description,
-      //     Footer: editorData.Footer,
-      //     showEmailBox,
-      //     showRatingBox,
-      //   })
-      //   .then(function (response) {
-      //     console.log(response);
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
+ 
+    console.log(editorData);
+      let url = "http://localhost:8080";
+      axios
+        .post(`${url}/hostsite`, {
+          Heading: editorData.Heading,
+          Description: editorData.Description,
+          Footer: editorData.Footer,
+          FormName:editorData.FormName,
+          showEmailBox,
+          showRatingBox,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     } else {
       console.log(`Field "${result}" is empty.`);
       //show a alert here
@@ -52,7 +56,11 @@ export default function Editor() {
       <div className="min-h-screen flex">
      
         
-      <Modal showModal={showModal} setShowModal={setShowModal} />
+      {editorData.FormName !== "" ? (
+            ""
+            ) : (
+                <Modal showModal={showModal} setShowModal={setShowModal} />
+            )}
         <div className="w-1/2  p-4 flex  ">
           <div
             className="w-full"

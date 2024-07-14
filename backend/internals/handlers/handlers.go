@@ -8,17 +8,16 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/CloudyKit/jet/v6"
 )
-
-
-
 
 type RequestBody struct {
 	Heading       string `json:"heading"`
 	Description   string `json:"description"`
 	Footer        string `json:"footer"`
+	FormName      string `json:"formName"`
 	ShowEmailBox  bool   `json:"showEmailBox"`
 	ShowRatingBox bool   `json:"showRatingBox"`
 }
@@ -47,13 +46,25 @@ func HostSite(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Something went wrong while parsing json ")
 	}
 
-	pageID := createNewPage(userData)
+	content, err := renderPage("home.jet", userData)
+	if err != nil {
+		log.Fatal("Something went wrong while parsing json ")
+	}
+	fmt.Print(content)
+	// az.Settingup(userData.FormName, content)
 
-	baseURL := "http://" + r.Host
-	pageURL := fmt.Sprintf("%s/viewpage/%d", baseURL, pageID)
-	response := map[string]string{"pageURL": pageURL}
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	//UserData have all the data
+	// first store the content into the blob
+	// get the link from the blob
+	//https://feedbackerstore.blob.core.windows.net/testcontainer4/FormNamefromuserData
+	// store into DB
+	// pageID := createNewPage(userData)
+
+	// baseURL := "http://" + r.Host
+	// pageURL := fmt.Sprintf("%s/viewpage/%d", baseURL, pageID)
+	// response := map[string]string{"pageURL": pageURL}
+	// w.Header().Set("Content-Type", "application/json")
+	// json.NewEncoder(w).Encode(response)
 
 }
 
@@ -94,20 +105,34 @@ func createHTMLPage(pageID int, userData RequestBody) {
 
 	fmt.Printf("Created new page: %s\n", fileName)
 }
-func renderPage(w http.ResponseWriter, html string, data jet.VarMap) error {
+func renderPage(html string, data RequestBody) (string, error) {
 
 	view, err := views.GetTemplate(html)
 	if err != nil {
 		log.Fatal("Something wrong while rendering", err)
-		return err
+		return "", err
 	}
-
-	err = view.Execute(w, data, nil)
+	vars := make(jet.VarMap)
+	vars.Set("Heading", data.Heading)
+	vars.Set("Description", data.Description)
+	vars.Set("Footer", data.Footer)
+	vars.Set("FormName", data.FormName)
+	vars.Set("ShowEmailBox", data.ShowEmailBox)
+	vars.Set("ShowRatingBox", data.ShowRatingBox)
+	var buf strings.Builder
+	err = view.Execute(&buf, vars, nil)
+	// fmt.Print("Print Data Now")
+	// fmt.Println()
+	// fmt.Print(buf.String())
 	if err != nil {
-		log.Fatal("Something went wrong while executing the page")
-		return err
+		log.Fatal("Something went wrong while executing the page ", err)
+		return "", err
 	}
-	return nil
+	// fmt.Print("Print Data Now")
+	// fmt.Println()
+	// fmt.Print(buf.String())
+
+	return buf.String(), nil
 }
 
 func ViewPage(w http.ResponseWriter, r *http.Request) {
