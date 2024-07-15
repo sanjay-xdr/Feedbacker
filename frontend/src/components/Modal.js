@@ -13,7 +13,7 @@ const Modal = ({ showModal, setShowModal }) => {
     
     let formNameFinal=formName+'_'+uuidv4()+".html";
 
-    setEditorData((prevstate) => ({ ...prevstate, FormName: formNameFinal }));
+    setEditorData((prevstate) => ({ ...prevstate, FormName: formName,FormNameWithId:formNameFinal }));
     
 
   }

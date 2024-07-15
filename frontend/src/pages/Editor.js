@@ -35,6 +35,7 @@ export default function Editor() {
           Description: editorData.Description,
           Footer: editorData.Footer,
           FormName:editorData.FormName,
+          formNameWithId:editorData.formNameWithId,
           showEmailBox,
           showRatingBox,
         })
