@@ -20,4 +20,4 @@ type Form struct {
 	FormLink  string //this will be from the blob storage
 	CreatedAt time.Time
 	UpdatedAt time.Time
-}
+}	

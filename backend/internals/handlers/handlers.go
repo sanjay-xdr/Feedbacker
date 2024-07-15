@@ -7,22 +7,24 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/CloudyKit/jet/v6"
+	"github.com/sanjay-xdr/feedbacker/internals/az"
 	"github.com/sanjay-xdr/feedbacker/internals/db"
+	"github.com/sanjay-xdr/feedbacker/internals/models"
 )
 
 type RequestBody struct {
-	Heading        string `json:"heading"`
-	Description    string `json:"description"`
-	Footer         string `json:"footer"`
-	FormNameWithId string `json:"formNameWithId"`
-	FormName       string `json:"formName"`
-	ShowEmailBox   bool   `json:"showEmailBox"`
-	ShowRatingBox  bool   `json:"showRatingBox"`
+	Heading       string `json:"heading"`
+	Description   string `json:"description"`
+	Footer        string `json:"footer"`
+	BlobName      string `json:"blobName"`
+	FormName      string `json:"formName"`
+	ShowEmailBox  bool   `json:"showEmailBox"`
+	ShowRatingBox bool   `json:"showRatingBox"`
 }
 
 var views = jet.NewSet(
@@ -37,6 +39,10 @@ type Repositry struct {
 var Repo *Repositry
 
 func NewRepo(dbc *sql.DB) *Repositry {
+
+	if dbc == nil {
+		log.Print("DBC is null")
+	}
 	return &Repositry{
 
 		DbCon: db.NewPostgresRepo(dbc),
@@ -45,6 +51,11 @@ func NewRepo(dbc *sql.DB) *Repositry {
 
 // set the Above Repo Variable
 func NewHandlers(r *Repositry) {
+
+	if r == nil {
+		log.Fatal("Bhai R NIL hai")
+	}
+	fmt.Print(r)
 	Repo = r
 }
 
@@ -53,7 +64,14 @@ func (m *Repositry) Home(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("Hello WOrld")
 }
 
-func HostSite(w http.ResponseWriter, r *http.Request) {
+func (m *Repositry) HostSite(w http.ResponseWriter, r *http.Request) {
+
+	if m == nil {
+		fmt.Print(m)
+		fmt.Println()
+		log.Fatal("Repo is Nil")
+		return
+	}
 
 	var userData RequestBody
 
@@ -71,61 +89,34 @@ func HostSite(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("Something went wrong while parsing json ")
 	}
-	fmt.Print(content)
-	// az.Settingup(userData.FormName, content)
+	fmt.Println()
 
-	//UserData have all the data
-	// first store the content into the blob
-	// get the link from the blob
-	//https://feedbackerstore.blob.core.windows.net/testcontainer4/FormNamefromuserData
-	// store into DB
-	// pageID := createNewPage(userData)
+	// fmt.Print(userData.BlobName, "FormID is this")
+	fmt.Println()
+	link, err := az.Settingup(userData.BlobName, content)
+	if err != nil {
+		log.Fatal("Something went wrong while Uploading to AZURe ", err)
+	}
 
-	// baseURL := "http://" + r.Host
-	// pageURL := fmt.Sprintf("%s/viewpage/%d", baseURL, pageID)
+	formData := &models.Form{
+		FormName:  userData.FormName,
+		FormLink:  link,
+		UserId:    1,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+	err = m.DbCon.InsertIntoForm(*formData)
+
+	if err != nil {
+		log.Fatal("Something Went Wrong While Inserting into DB ", err)
+	}
+
 	// response := map[string]string{"pageURL": pageURL}
 	// w.Header().Set("Content-Type", "application/json")
 	// json.NewEncoder(w).Encode(response)
 
 }
 
-func createNewPage(userData RequestBody) int {
-
-	pageID := generateUniquePageID()
-	createHTMLPage(pageID, userData)
-	return pageID
-}
-
-func generateUniquePageID() int {
-
-	return os.Getpid()
-}
-
-func createHTMLPage(pageID int, userData RequestBody) {
-	// fmt.Print(userData.Heading)
-	tmpl, err := views.GetTemplate("home.jet")
-	// fmt.Print(tmpl)
-	if err != nil {
-		log.Fatalf("Error getting template: %v", err)
-	}
-
-	fileName := fmt.Sprintf("page_%d.html", pageID)
-	file, err := os.Create(fileName)
-	if err != nil {
-		log.Fatalf("Error creating file: %v", err)
-	}
-	defer file.Close()
-
-	vars := make(jet.VarMap)
-	vars.Set("userData", userData)
-
-	err = tmpl.Execute(file, vars, nil)
-	if err != nil {
-		log.Fatalf("Error executing template: %v", err)
-	}
-
-	fmt.Printf("Created new page: %s\n", fileName)
-}
 func renderPage(html string, data RequestBody) (string, error) {
 
 	view, err := views.GetTemplate(html)

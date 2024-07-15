@@ -24,7 +24,7 @@ func Routes() http.Handler {
 
 	mux.Get("/home", handlers.Repo.Home)
 
-	mux.Post("/hostsite", handlers.HostSite)
+	mux.Post("/hostsite", handlers.Repo.HostSite)
 
 	mux.Get("/viewpage/{id}", handlers.ViewPage)
 	mux.Post("/feedback", handlers.CreateFeedback)
