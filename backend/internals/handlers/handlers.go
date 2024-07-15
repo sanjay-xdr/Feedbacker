@@ -16,12 +16,13 @@ import (
 )
 
 type RequestBody struct {
-	Heading       string `json:"heading"`
-	Description   string `json:"description"`
-	Footer        string `json:"footer"`
-	FormName      string `json:"formName"`
-	ShowEmailBox  bool   `json:"showEmailBox"`
-	ShowRatingBox bool   `json:"showRatingBox"`
+	Heading        string `json:"heading"`
+	Description    string `json:"description"`
+	Footer         string `json:"footer"`
+	FormNameWithId string `json:"formNameWithId"`
+	FormName       string `json:"formName"`
+	ShowEmailBox   bool   `json:"showEmailBox"`
+	ShowRatingBox  bool   `json:"showRatingBox"`
 }
 
 var views = jet.NewSet(

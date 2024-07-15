@@ -5,25 +5,19 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/cors"
 	"github.com/sanjay-xdr/feedbacker/internals/driver"
 	"github.com/sanjay-xdr/feedbacker/internals/handlers"
 )
 
+/*
+* * These
+TODO: afdasljfkadsfda
+! something
+? wowoowwoowow
+*/
 func main() {
 
-	mux := chi.NewRouter()
-
-	cors := cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"*"},
-		AllowCredentials: true,
-		MaxAge:           300,
-	})
-
-	mux.Use(cors.Handler)
+	mux := Routes()
 
 	//   az.ConnectToAzure();
 
@@ -41,13 +35,6 @@ func main() {
 			log.Printf("Error closing the database connection: %v", err)
 		}
 	}()
-
-	mux.Get("/home", handlers.Repo.Home)
-
-	mux.Post("/hostsite", handlers.HostSite)
-
-	mux.Get("/viewpage/{id}", handlers.ViewPage)
-	mux.Post("/feedback", handlers.CreateFeedback)
 
 	log.Fatal(http.ListenAndServe(":8080", mux))
 
