@@ -25,19 +25,17 @@ export default function Editor() {
 
     const result = validateObject(editorData);
     if (result === true) {
-      //here then create a api call to backend beaches
- 
-    console.log(editorData);
       let url = "http://localhost:8080";
+      console.log("YHI se ho rhi hai API call")
       axios
         .post(`${url}/hostsite`, {
-          Heading: editorData.Heading,
-          Description: editorData.Description,
-          Footer: editorData.Footer,
-          FormName:editorData.FormName,
-          formNameWithId:editorData.formNameWithId,
-          showEmailBox,
-          showRatingBox,
+          heading: editorData.Heading,       
+          description: editorData.Description, 
+          footer: editorData.Footer,          
+          formName: editorData.FormName,      
+          blobName: editorData.FormNameWithId, 
+          showEmailBox: showEmailBox,
+          showRatingBox: showRatingBox
         })
         .then(function (response) {
           console.log(response);
