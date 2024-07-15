@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -29,19 +30,25 @@ func main() {
 	// az.Settingup()
 	//THis is the cal
 	db, err := driver.ConnectDb("host=localhost port=5432 dbname=Feedbacker user=postgres password=sanjay")
+	r := handlers.NewRepo(db)
+	handlers.NewHandlers(r)
 
 	if err != nil {
 		fmt.Print("Something went wrong while connecting to the database", err)
 	}
-	defer db.Close()
+	defer func() {
+		if err := db.Close(); err != nil {
+			log.Printf("Error closing the database connection: %v", err)
+		}
+	}()
 
-	mux.Get("/home", handlers.Home)
+	mux.Get("/home", handlers.Repo.Home)
 
 	mux.Post("/hostsite", handlers.HostSite)
 
 	mux.Get("/viewpage/{id}", handlers.ViewPage)
 	mux.Post("/feedback", handlers.CreateFeedback)
 
-	http.ListenAndServe(":8080", mux)
+	log.Fatal(http.ListenAndServe(":8080", mux))
 
 }

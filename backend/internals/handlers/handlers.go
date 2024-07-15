@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -11,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/CloudyKit/jet/v6"
+	"github.com/sanjay-xdr/feedbacker/internals/db"
 )
 
 type RequestBody struct {
@@ -27,7 +29,25 @@ var views = jet.NewSet(
 	jet.InDevelopmentMode(),
 )
 
-func Home(w http.ResponseWriter, r *http.Request) {
+type Repositry struct {
+	DbCon *db.PostgresDbCon
+}
+
+var Repo *Repositry
+
+func NewRepo(dbc *sql.DB) *Repositry {
+	return &Repositry{
+
+		DbCon: db.NewPostgresRepo(dbc),
+	}
+}
+
+// set the Above Repo Variable
+func NewHandlers(r *Repositry) {
+	Repo = r
+}
+
+func (m *Repositry) Home(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Print("Hello WOrld")
 }
