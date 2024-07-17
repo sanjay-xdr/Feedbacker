@@ -1,0 +1,1 @@
+### FeedBacker is a  platform designed to help businesses collect, manage, and display customer testimonials. With an easy-to-use interface and robust features, FeedBacker enables you to leverage customer feedback to build trust and drive growth.
