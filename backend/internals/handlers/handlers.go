@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -15,6 +14,7 @@ import (
 	"github.com/sanjay-xdr/feedbacker/internals/az"
 	"github.com/sanjay-xdr/feedbacker/internals/db"
 	"github.com/sanjay-xdr/feedbacker/internals/models"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type RequestBody struct {
@@ -25,6 +25,13 @@ type RequestBody struct {
 	FormName      string `json:"formName"`
 	ShowEmailBox  bool   `json:"showEmailBox"`
 	ShowRatingBox bool   `json:"showRatingBox"`
+}
+
+type FeedbackResponse struct {
+	Feedback string `json:"feedback"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Rating   int    `json:"rating"`
 }
 
 var views = jet.NewSet(
@@ -38,14 +45,14 @@ type Repositry struct {
 
 var Repo *Repositry
 
-func NewRepo(dbc *sql.DB) *Repositry {
+func NewRepo(dbc *sql.DB, mongoDbc *mongo.Client) *Repositry {
 
 	if dbc == nil {
 		log.Print("DBC is null")
 	}
 	return &Repositry{
 
-		DbCon: db.NewPostgresRepo(dbc),
+		DbCon: db.NewPostgresRepo(dbc, mongoDbc),
 	}
 }
 
@@ -163,17 +170,34 @@ func ViewPage(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, fileName)
 }
 
-func CreateFeedback(w http.ResponseWriter, r *http.Request) {
+func (m *Repositry) CreateFeedback(w http.ResponseWriter, r *http.Request) {
+	fmt.Println()
+	fmt.Print("Creating the Feedback Now ")
 
-	fmt.Print("Creating the Feedback Now")
 	fmt.Println()
 
-	body, err := io.ReadAll(r.Body)
+	var userFeedbackResponse FeedbackResponse
+
+	err := json.NewDecoder(r.Body).Decode(&userFeedbackResponse)
+
+	if err != nil {
+		fmt.Print(err)
+	}
+
+	data := models.FeedbackResponse{
+		Feedback:  userFeedbackResponse.Feedback,
+		Name:      userFeedbackResponse.Name,
+		Email:     userFeedbackResponse.Email,
+		Rating:    userFeedbackResponse.Rating,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+	m.DbCon.InsertIntoMOngoDb(data)
 
 	if err != nil {
 		fmt.Print("Error While Reading the Body")
 	}
 
-	fmt.Print(string(body))
+	// fmt.Print(string(body))
 
 }
