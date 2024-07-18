@@ -6,6 +6,8 @@ import NotFound from './pages/NotFound';
 import About from './pages/About';
 import Editor from './pages/Editor';
 import AdminDashboard from './pages/AdminDashboard';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 
 
@@ -19,6 +21,9 @@ function App() {
   <Route path="/about" element={<About/>}/>
   <Route path="/editor" element={<Editor/>}/>
   <Route path="/dashboard" element={<AdminDashboard/>}/>
+  <Route path="/login" element={<Login/>}/>
+  <Route path="/signup" element={<Signup/>}/>
+
 
 
  
