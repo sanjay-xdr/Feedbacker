@@ -49,6 +49,8 @@ export default function Editor() {
     }
   };
 
+
+
   return (
     <>
       <Navbar />
@@ -120,7 +122,7 @@ export default function Editor() {
             <div className="w-1/2">
               <label
                 htmlfol="heading"
-                className="block m-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block m-2 text-sm font-medium text-gray-900 "
               >
                 Heading
               </label>
@@ -137,7 +139,7 @@ export default function Editor() {
             <div className="w-1/2">
               <label
                 htmlfol="Description"
-                className="block m-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block m-2 text-sm font-medium text-gray-900 "
               >
                 Description
                 <span className="text-red-600">
@@ -155,10 +157,12 @@ export default function Editor() {
                 onChange={(e) => inputHandler(e)}
               />
             </div>
+
+           
             <div className="w-1/2">
               <label
                 htmlfol="Footer"
-                className="block m-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block m-2 text-sm font-medium text-gray-900 "
               >
                 Footer
               </label>
@@ -184,7 +188,7 @@ export default function Editor() {
               />
               <label
                 htmlFor="default-checkbox"
-                className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="ms-2 text-sm font-medium text-gray-900 "
               >
                 Collect User Email
               </label>
@@ -200,7 +204,7 @@ export default function Editor() {
               />
               <label
                 htmlFor="default-checkbox"
-                className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="ms-2 text-sm font-medium text-gray-900"
               >
                 Add Rating
               </label>
@@ -220,7 +224,7 @@ export default function Editor() {
         </div>
         <div className="w-px bg-gray-300"></div> {/* Vertical Line */}
         <div className="w-1/2  p-4 flex flex-col justify-center items-center">
-          <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+          <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
             <div className="bg-white p-4 flex justify-center">
               <img
                 className="mx-auto h-10 "
@@ -229,20 +233,20 @@ export default function Editor() {
               />
             </div>
             <form className="space-y-6" action="#">
-              <h5 className="text-xl font-medium text-gray-900 dark:text-white">
+              <h5 className="text-xl font-medium text-gray-900 ">
                 {editorData.Heading || "Write a Heading"}
               </h5>
               <div>
                 <label
                   htmlfol="email"
-                  className="ml-1 mb-4 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="ml-1 mb-4 block mb-2 text-sm font-medium text-gray-900 "
                 >
                   {editorData.Description || "Write a Description Here"}
                 </label>
                 <div className="w-full">
                   <label
                     htmlfol="Name"
-                    className="ml-1 mb-1 block  text-sm font-medium text-gray-900 dark:text-white"
+                    className="ml-1 mb-1 block  text-sm font-medium text-gray-900 "
                   >
                     Name <span class="text-red-500">*</span>
                   </label>
@@ -261,7 +265,7 @@ export default function Editor() {
                   <div className="w-full">
                     <label
                       htmlfol="Name"
-                      className="ml-1 mb-1 block  text-sm font-medium text-gray-900 dark:text-white"
+                      className="ml-1 mb-1 block  text-sm font-medium text-gray-900 "
                     >
                       Email <span class="text-red-500">*</span>
                     </label>
@@ -280,7 +284,7 @@ export default function Editor() {
                 <textarea
                   id="message"
                   rows="4"
-                  className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                   placeholder="Write your thoughts here..."
                 ></textarea>
 
@@ -288,7 +292,7 @@ export default function Editor() {
                   <>
                     <label
                       htmlfol="Name"
-                      className="ml-1 mt-3 block  text-sm font-medium text-gray-900 dark:text-white"
+                      className="ml-1 mt-3 block  text-sm font-medium text-gray-900 "
                     >
                       Rating <span class="text-red-500">*</span>
                     </label>
@@ -345,7 +349,7 @@ export default function Editor() {
 
               <div className="flex items-start">
                 <div className="flex items-start">
-                  <p className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  <p className="ms-2 text-sm font-medium text-gray-900">
                     {editorData.Footer || "Write a Footer "}
                   </p>
                 </div>
