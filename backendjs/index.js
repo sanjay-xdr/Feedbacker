@@ -1,11 +1,15 @@
-const express = require('express')
-const app = express()
-const port = 8080
+const express = require('express');
+const app = express();
+const routes = require('./routes/index');
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// Middleware
+app.use(express.json());
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+// Routes
+app.use('/api', routes);
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
