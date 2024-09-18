@@ -25,7 +25,7 @@ export default function Editor() {
 
     const result = validateObject(editorData);
     if (result === true) {
-      let url = "http://localhost:8080";
+      let url = "http://localhost:8080/api/web";
       console.log("YHI se ho rhi hai API call")
       axios
         .post(`${url}/hostsite`, {
