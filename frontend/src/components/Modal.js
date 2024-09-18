@@ -25,14 +25,7 @@ const Modal = ({ showModal, setShowModal }) => {
         <div className="p-6 border-b border-gray-200">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold text-gray-800">Enter your Form Name</h2>
-            <button
-              className="text-gray-400 hover:text-gray-600"
-              onClick={() => setShowModal(false)}
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-            </button>
+        
           </div>
         </div>
         <div className="p-6">
@@ -48,7 +41,8 @@ const Modal = ({ showModal, setShowModal }) => {
         </div>
         <div className="p-6 border-t border-gray-200 flex justify-end space-x-3">
           <button
-            className="px-4 py-2 text-white bg-gray-500 rounded-md hover:bg-gray-600"
+            className="text-white bg-gray-400  cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+            disabled="true" 
             onClick={() => setShowModal(false)}
           >
             Close
