@@ -1,15 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const websiteController = require('../controllers/webSitecontroller');
 
-// Example web route
-router.get('/', (req, res) => {
-  res.status(200).send('Welcome to the web route!');
-});
+// Define routes for users
+router.post('/hostsite', websiteController.hostSite);
 
-router.post("/hostsite",(req,res)=>{
 
-  // read body here
-
-  return res.json({msg:"Hit Successful"})
-})
 module.exports = router;

@@ -3,9 +3,10 @@ const app = express();
 const routes = require('./routes/index');
 const cors = require('cors');
 app.use(cors());
-// Middlewareapp.use(cors());
-app.use(express.json());
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
 // Routes
 app.use('/api', routes);
 
