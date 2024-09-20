@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= formName %></title>
+</head>
+<body>
+    <h1><%= heading %></h1>
+    <p><%= description %></p>
+
+    <footer><%= footer %></footer>
+
+    <% if (showEmailBox) { %>
+        <input type="email" placeholder="Enter your email" />
+    <% } %>
+
+    <% if (showRatingBox) { %>
+        <input type="number" placeholder="Rate this form" min="1" max="5" />
+    <% } %>
+
+    <p>Blob Name: <%= blobName %></p>
+</body>
+</html>
