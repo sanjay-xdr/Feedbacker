@@ -1,10 +1,14 @@
 // get the frontend data from the user 
 // make the HTML page 
 // upload that page into the Azure Blob storage
-const { getPgVersion } = require('../db/index');
+const { getPgVersion } = require('../db/config/index');
 exports.hostSite=(req,res)=>{
     console.log(req.body);
     // res.send("hit succesful");
+
+    //! UPLOAD TO BLOB STORAGE
+
+    //! MAKE AND ENTRY INTO THE DATABASE
     res.render('template', req.body);
 
 }
