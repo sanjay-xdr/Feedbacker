@@ -1,6 +1,7 @@
 // get the frontend data from the user 
 // make the HTML page 
 // upload that page into the Azure Blob storage
+const uploadFileToBlob = require('../azure/blob');
 const { getPgVersion } = require('../db/config/index');
 exports.hostSite=(req,res)=>{
     console.log(req.body);
@@ -9,7 +10,12 @@ exports.hostSite=(req,res)=>{
     //! UPLOAD TO BLOB STORAGE
 
     //! MAKE AND ENTRY INTO THE DATABASE
-    res.render('template', req.body);
+
+    const htmlContent = "<html><body>Hello, World!</body></html>";
+    uploadFileToBlob("htmlpages", "example.html", htmlContent)
+      .then(() => console.log("Upload successful"))
+      .catch((error) => console.error("Error uploading to blob:", error));
+    // res.render('template', req.body);
 
 }
 
