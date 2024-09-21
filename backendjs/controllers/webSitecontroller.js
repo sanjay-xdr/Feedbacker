@@ -11,10 +11,10 @@ exports.hostSite=(req,res)=>{
 
     //! MAKE AND ENTRY INTO THE DATABASE
 
-    const htmlContent = "<html><body>Hello, World!</body></html>";
-    uploadFileToBlob("htmlpages", "example.html", htmlContent)
-      .then(() => console.log("Upload successful"))
-      .catch((error) => console.error("Error uploading to blob:", error));
+    // const htmlContent = "<html><body>Hello, World!</body></html>";
+    // uploadFileToBlob("htmlpages", "example.html", htmlContent)
+    //   .then(() => console.log("Upload successful"))
+    //   .catch((error) => console.error("Error uploading to blob:", error));
     // res.render('template', req.body);
 
 }

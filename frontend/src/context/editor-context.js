@@ -12,6 +12,8 @@ export const EditorProvider = ({ children }) => {
     Footer:"",
     FormName:"",
     FormNameWithId:"",
+    showEmailBox:false,
+    showRatingBox:false
  })
 
   return (
