@@ -1,7 +1,10 @@
+const { insertUser } = require("../db/models/userModel");
+
 const users = [
     { id: 1, name: 'John Doe' },
     { id: 2, name: 'Jane Doe' }
   ];
+  
   
   // Get all users
   exports.getAllUsers = (req, res) => {
@@ -21,13 +24,10 @@ const users = [
   };
   
   // Create new user
-  exports.createUser = (req, res) => {
-    const newUser = {
-      id: users.length + 1,
-      name: req.body.name
-    };
-    
-    users.push(newUser);
-    res.status(201).json(newUser);
+  exports.createUser = async (req, res) => {  
+
+    result=await insertUser("Sanjay" , "Jaiswal" ,"sanjay@gmail.com" ,"123456")
+    res.status(201).json({success:true, message:result});
+
   };
   
