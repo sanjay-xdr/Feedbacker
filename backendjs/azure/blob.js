@@ -1,37 +1,51 @@
-const { BlobServiceClient } = require('@azure/storage-blob');
-require('dotenv').config();
+const { BlobServiceClient } = require("@azure/storage-blob");
+require("dotenv").config();
 
-const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
+const AZURE_STORAGE_CONNECTION_STRING =
+  process.env.AZURE_STORAGE_CONNECTION_STRING;
 
 if (!AZURE_STORAGE_CONNECTION_STRING) {
-  throw new Error("Azure Storage Connection String is not defined in the environment variables.");
+  throw new Error(
+    "Azure Storage Connection String is not defined in the environment variables."
+  );
 }
 
-console.log(AZURE_STORAGE_CONNECTION_STRING, "Value of connection string");
+const blobServiceClient = BlobServiceClient.fromConnectionString(
+  AZURE_STORAGE_CONNECTION_STRING
+);
 
-const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
-
-// Function to create a container if it doesn't exist
-async function createContainer(containerName) {
+const createContainer = async (containerName) => {
   const containerClient = blobServiceClient.getContainerClient(containerName);
-  const createContainerResponse = await containerClient.createIfNotExists();
-  console.log(`Container '${containerName}' created, if it didn't exist.`);
+  await containerClient.createIfNotExists();
+  console.log(`Container '${containerName}' created or already exists.`);
+  await containerClient.setAccessPolicy("blob");
+  console.log(
+    `Access level for container '${containerName}' set to 'container' (public read access).`
+  );
 }
-
-// Example of uploading a file to blob storage
 async function uploadFileToBlob(containerName, blobName, content) {
-  const containerClient = blobServiceClient.getContainerClient(containerName);
-  
-  // Create the container if it doesn't exist
-  await createContainer(containerName);
-  
-  const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-
   try {
-    await blockBlobClient.upload(content, content.length);
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await createContainer(containerName);
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    const uploadOptions = {
+      blobHTTPHeaders: {
+        blobContentType: "text/html",
+      },
+    };
+
+    await blockBlobClient.upload(
+      content,
+      Buffer.byteLength(content),
+      uploadOptions
+    );
     console.log(`File uploaded to Blob: ${blobName}`);
+    const blobUrl = blockBlobClient.url;
+    console.log("Blob URL:", blobUrl);
+    return blobUrl;
   } catch (error) {
     console.error("Error uploading to blob:", error.message);
+    throw error;
   }
 }
 
