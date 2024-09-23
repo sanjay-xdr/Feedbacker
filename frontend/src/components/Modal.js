@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import useEditorContext from "../context/editor-context";
 import { v4 as uuidv4 } from "uuid";
 import { hostForm } from "../utils/apiClient";
+import { Navigate } from "react-router";
+import { useNavigate } from "react-router-dom"; 
 
 const Modal = ({ showModal, setShowModal }) => {
   const { editorData, setEditorData } = useEditorContext();
   const [inputValue, setInputValue] = useState("");
+  const navigate = useNavigate();
 
   if (!showModal) return null;
 
@@ -19,10 +22,14 @@ const Modal = ({ showModal, setShowModal }) => {
     }));
   };
 
-  const submitForm = () => {
+  const submitForm =async () => {
     if (inputValue.trim()) {
-      hostForm(editorData);
-      setShowModal(false); // Close the modal after submitting the form
+   let response=  await hostForm(editorData);
+   if(response){ //! Check the Response Properly
+    console.log("Navigating to projects");
+    navigate("/projects");
+   }
+      setShowModal(false); 
     } else {
       alert("Form name cannot be empty");
     }
