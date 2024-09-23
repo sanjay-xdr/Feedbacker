@@ -8,6 +8,7 @@ import Editor from './pages/Editor';
 import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import { Projects } from './pages/Projects';
 
 
 
@@ -23,6 +24,9 @@ function App() {
   <Route path="/dashboard" element={<AdminDashboard/>}/>
   <Route path="/login" element={<Login/>}/>
   <Route path="/signup" element={<Signup/>}/>
+  <Route path="/projects" element={<Projects/>}/>
+
+  
 
 
 
