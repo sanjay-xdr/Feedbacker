@@ -6,13 +6,13 @@ export default function Login() {
   return (
     <div>
         <section>
-  <div className="grid grid-cols-1 lg:grid-cols-2">
+  <div>
     <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
       <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
-        <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">
-          Log in
+        <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl ">
+          Sign in 
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        {/* <p className="mt-2 text-sm text-gray-600">
           Don&#x27;t have an account?{" "}
           <Link
           to="/signup"
@@ -21,8 +21,8 @@ export default function Login() {
           >
             Create a free account
           </Link>
-        </p>
-        <form action="#" method="POST" className="mt-8">
+        </p> */}
+        {/* <form action="#" method="POST" className="mt-8">
           <div className="space-y-5">
             <div>
               <label for="" className="text-base font-medium text-gray-900">
@@ -84,8 +84,8 @@ export default function Login() {
               </button>
             </div>
           </div>
-        </form>
-        <div className="mt-3 space-y-3">
+        </form> */}
+        <div className="mt-4 space-y-3">
           <button
             type="button"
             className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none"
@@ -106,13 +106,7 @@ export default function Login() {
         </div>
       </div>
     </div>
-    <div className="h-full w-full">
-      <img
-        className="mx-auto h-full w-full rounded-md object-cover"
-        src="https://images.unsplash.com/photo-1630673245362-f69d2b93880e?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1740&amp;q=80"
-        alt=""
-      />
-    </div>
+
   </div>
 </section>
 
