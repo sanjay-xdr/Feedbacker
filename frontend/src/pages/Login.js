@@ -1,8 +1,21 @@
+import { signInWithPopup } from 'firebase/auth'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { auth, provider } from '../firebase/config'
 
 
 export default function Login() {
+
+
+  const loginWithGoogle=()=>{
+    try {
+      signInWithPopup(auth,provider)
+      .then((user)=>console.log(user))
+      .catch(error=>console.log(error))
+    }catch(err){
+      console.log(err)
+    }
+  }
   return (
     <div>
         <section>
@@ -89,6 +102,7 @@ export default function Login() {
           <button
             type="button"
             className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none"
+            onClick={loginWithGoogle}
           >
             <span className="mr-2 inline-block">
               <svg
